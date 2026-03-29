@@ -1,7 +1,8 @@
 // 送信するデータ
 const data = {
-  input: "二十四節気",
+  input: "鎌倉時代",
 };
+//input: "二十四節気",
 
 const API_URL= "http://localhost:8000/search"
 

@@ -1,3 +1,4 @@
+#pragma once
 #include <iostream>
 #include <vector>
 #include <pqxx/pqxx> // libpqxx が必要

@@ -53,7 +53,8 @@ sudo apt install libcurl4-openssl-dev
 ***
 * build
 ```
-g++ -std=c++17 -pthread -o server server.cpp -lcurl -lpqxx -lpq
+g++ -std=c++17 -I./include -pthread -o server server.cpp \
+ -lcurl -lpqxx -lpq
 ```
 
 * start

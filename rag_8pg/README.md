@@ -74,3 +74,5 @@ g++ -std=c++17 -I./include -o search search.cpp -lcurl -lpqxx -lpq
 ***
 ### Blog
 
+https://zenn.dev/knaka0209/scraps/f30b4d9fcac306
+

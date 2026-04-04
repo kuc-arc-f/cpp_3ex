@@ -34,18 +34,27 @@ public:
           ss << "]";
           string query_vec_str = ss.str();
 
-          string sql = "SELECT id, embedding , content FROM documents ORDER BY embedding <-> '" + query_vec_str + "' LIMIT 1;";
-
+          // 3. SQL実行 (<=> はコサイン距離)
+          // 距離を "distance" として取得し、近い順(ASC)にソート
+          //string sql = "SELECT id, embedding , content FROM documents ORDER BY embedding <-> '" + query_vec_str + "' LIMIT 1;";
+          std::string sql = "SELECT id, content, embedding <=> '" + query_vec_str + "'"
+                            + " AS distance FROM documents ORDER BY distance LIMIT 1";
+                            
+          //cout << "sql=" << sql << "\n";
           pqxx::result result = txn.exec(sql);
 
           cout << "Top similar vectors:\n";
           std::string matches = "";
           for (const auto& row : result) {
               int id = row["id"].as<int>();
-              string emb = row["embedding"].c_str();
+              //string emb = row["embedding"].c_str();
+              auto distance = row["distance"].as<float>();
               std::string content = row["content"].c_str();
-              matches = content;
-              //cout << "ID: " << id << ", content: " << content << endl;
+              if (distance < 0.5) {
+                  matches = content;
+              }
+              cout << "ID: " << id << ", distance: " << distance << endl;
+              //cout << "ID: " << id << endl;
           }
           txn.commit();
 

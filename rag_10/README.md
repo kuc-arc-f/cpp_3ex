@@ -63,7 +63,6 @@ g++ -std=c++17 -I./include -o search search.cpp -lcurl -lsqlite3 -lm
 ```
 CREATE TABLE IF NOT EXISTS document (
   id TEXT PRIMARY KEY,
-  sessid TEXT,
   name TEXT,
   content TEXT,
   embeddings BLOB

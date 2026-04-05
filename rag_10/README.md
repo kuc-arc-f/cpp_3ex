@@ -58,8 +58,13 @@ g++ -std=c++17 -I./include -o embed embed.cpp -lcurl -lsqlite3 -luuid
 g++ -std=c++17 -I./include -o search search.cpp -lcurl -lsqlite3 -lm
 ```
 ***
-* table : ./table.sql
+* table add
+```
+sqlite3 ./example.db < table.sql
+```
 
+***
+* table.sql
 ```
 CREATE TABLE IF NOT EXISTS document (
   id TEXT PRIMARY KEY,

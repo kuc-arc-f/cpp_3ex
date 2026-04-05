@@ -87,3 +87,4 @@ PRAGMA journal_mode = WAL;
 ***
 ### Blog
 
+https://zenn.dev/knaka0209/scraps/08a0d8cf7d9c03

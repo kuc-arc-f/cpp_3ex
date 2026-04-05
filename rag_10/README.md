@@ -10,7 +10,7 @@
 
 C++ CLI , RAG Search + SQLite DB
 
-* modl: gemma-4-E2B-it-Q4_K_S.gguf
+* model: gemma-4-E2B-it-Q4_K_S.gguf
 * Embedding-model : Qwen3-Embedding-0.6B-Q8_0.gguf
 * llama.cpp , llama-server 
 * gcc version 14.2.0 

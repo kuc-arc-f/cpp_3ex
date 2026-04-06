@@ -6,6 +6,7 @@
 #include <string>
 #include <sqlite3.h>
 #include <uuid/uuid.h>
+#include "my_config.hpp"
 
 using namespace std;
 
@@ -52,6 +53,15 @@ public:
             uuid_unparse(uuid, uuid_str);
 
             std::cout << "UUID: " << uuid_str << std::endl;            
+            MyConfig config("");
+            //std::cout << "embedding.size=" << embedding.size() << "\n";
+            if (embedding.size() != config.EMBED_SIZE) {
+                std::cout << "input size: " << embedding.size() << "\n";
+                std::cout << "config.EMBED_SIZE: " << config.EMBED_SIZE << "\n";
+                std::cerr << "error , Embedding size mismatch" << std::endl; 
+                return;
+            }
+
             stringstream ss;
             ss << "[";
             for (size_t i = 0; i < embedding.size(); ++i) {

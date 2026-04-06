@@ -11,6 +11,7 @@
 #include <nlohmann/json.hpp>
 
 #include "db_add.hpp"
+#include "my_config.hpp"
 
 using namespace std;
 
@@ -209,6 +210,7 @@ int ebmed(std::string query){
         std::cout << v1 << ", " << v2 << std::endl;
 
         DbAdd app(DB_PATH);
+        //std::vector<float> tmp_vec = {0.1f, 0.2f, 0.3f};
         app.add_embed(vec, query);
       }
     } catch (const std::exception& e) {

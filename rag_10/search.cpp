@@ -243,6 +243,10 @@ int main(int argc, char* argv[])
         double v2 = vec[1];        
         std::cout << v1 << ", " << v2 << std::endl;
         DbSearch app(DB_PATH);
+        //std::vector<float> tmp_vec = {0.1f, 0.2f, 0.3f};
+        if(app.search_embed_size(vec) == false){
+            return 0;
+        }
         std::string resp_str = app.rag_search(vec);
         
         std::string out_str = "日本語で、回答して欲しい。 \n要約して欲しい。\n\n";

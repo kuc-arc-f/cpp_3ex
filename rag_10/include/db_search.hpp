@@ -9,6 +9,7 @@
 #include <string>
 #include <sqlite3.h>
 #include <nlohmann/json.hpp> // JSONライブラリ
+#include "my_config.hpp"
 
 using namespace std;
 // JSON用エイリアス
@@ -107,6 +108,19 @@ public:
         }
         sqlite3_finalize(stmt);
         return items;
+    }
+
+    bool search_embed_size(std::vector<float> embedding) {
+        bool ret = false;
+        MyConfig config("");
+        if (embedding.size() != config.EMBED_SIZE) {
+            std::cout << "input size: " << embedding.size() << "\n";
+            std::cout << "config.EMBED_SIZE: " << config.EMBED_SIZE << "\n";
+            std::cerr << "error , Embedding size mismatch : " << config.EMBED_SIZE << std::endl; 
+            return ret;
+        }
+        ret = true;
+        return ret;
     }
 
     std::string rag_search(std::vector<float> embedding) {

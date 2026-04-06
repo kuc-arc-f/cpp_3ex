@@ -152,7 +152,8 @@ public:
             res_item.embedding = vec;
             res_item.content = data.content;
             res_item.distance = distance;
-            if(distance > 0.6) {
+            //std::cout << data.id << ", distance=" << distance << std::endl;
+            if(distance > 0.4) {
                 result_items.push_back(res_item);
             }
         }

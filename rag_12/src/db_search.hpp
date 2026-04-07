@@ -200,7 +200,7 @@ public:
                 out_str = item.content + "\n";
             }        
         }
-        std::cout << "out_str=" << out_str << std::endl;
+        //std::cout << "out_str=" << out_str << std::endl;
         return out_str;
         } catch (const exception &e) {
             cerr << e.what() << endl;
@@ -284,7 +284,7 @@ public:
                     return;
                 }
                 std::string resp_str = rag_search(vec);
-                std::cout << "resp_str=" << resp_str << std::endl;
+                //std::cout << "resp_str=" << resp_str << std::endl;
                 std::string out_str = "日本語で、回答して欲しい。 \n要約して欲しい。\n\n";
                 if(resp_str.empty()){
                     out_str.append("user query: ");
@@ -316,7 +316,7 @@ public:
                 req3.temperature = 0.7;
                 json j3 = req3; // 構造体を代入するだけ！
                 std::string json_str3 = j3.dump();
-                std::cout << "json_str3:" << json_str3 << std::endl;
+                //std::cout << "json_str3:" << json_str3 << std::endl;
                 std::string requestBody = json_str3;
                 auto resp2 = client.post_json(API_URL_CHAT, requestBody);
                 if (!resp2.error.empty()) {

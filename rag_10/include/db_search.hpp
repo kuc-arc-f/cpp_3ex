@@ -126,57 +126,57 @@ public:
     std::string rag_search(std::vector<float> embedding) {
         std::string ret = "";
         try {
-        int count =  get_count();
-        cout << "count=" << count << "\n";
-        if(count == 0){
-            cout << "error, documet none"  << "\n";
-            return ret;
-        }
-
-        int vlen = sizeof(embedding) / sizeof(embedding[0]);
-        std::cout << "embedding.vlen=" << embedding.size() << std::endl;            
-
-        std::vector<EmbedData> items = get_items();
-        std::vector<ResultEmbed> result_items;
-        for (const auto& data : items) {
-            std::string id = data.id;
-            std::vector<float> vec = data.embedding;
-            int vlength = sizeof(vec) / sizeof(vec[0]);
-            //std::cout << "vlen=" << vec.size() << std::endl;            
-            //std::cout << data.id << "\t| " << data.content << std::endl;
-
-            float distance = cosine_similarity(embedding, vec);
-            //std::cout << "distance=" << distance << std::endl;            
-            ResultEmbed res_item;
-            res_item.id = id;
-            res_item.embedding = vec;
-            res_item.content = data.content;
-            res_item.distance = distance;
-            //std::cout << data.id << ", distance=" << distance << std::endl;
-            if(distance > 0.4) {
-                result_items.push_back(res_item);
+            int count =  get_count();
+            cout << "count=" << count << "\n";
+            if(count == 0){
+                cout << "error, documet none"  << "\n";
+                return ret;
             }
-        }
-        std::sort(result_items.begin(), result_items.end(),
-            [](const ResultEmbed& a, const ResultEmbed& b) {
-                return a.distance > b.distance;
-            }
-        );   
 
-        // 結果表示
-        std::string out_str = "";
-        for (const auto& item : result_items) {
-            //std::cout << "id=" << item.id
-            //        << ", content=" << item.content
-            //        << ", distance=" << item.distance << std::endl;
-            if (out_str.empty()) {
-                std::cout << "distance=" << item.distance
-                    << ", id=" << item.id << std::endl;
-                out_str = item.content + "\n";
-            }        
-        }
-        std::cout << "out_str=" << out_str << std::endl;
-        return out_str;
+            int vlen = sizeof(embedding) / sizeof(embedding[0]);
+            std::cout << "embedding.vlen=" << embedding.size() << std::endl;            
+
+            std::vector<EmbedData> items = get_items();
+            std::vector<ResultEmbed> result_items;
+            for (const auto& data : items) {
+                std::string id = data.id;
+                std::vector<float> vec = data.embedding;
+                int vlength = sizeof(vec) / sizeof(vec[0]);
+                //std::cout << "vlen=" << vec.size() << std::endl;            
+                //std::cout << data.id << "\t| " << data.content << std::endl;
+
+                float distance = cosine_similarity(embedding, vec);
+                //std::cout << "distance=" << distance << std::endl;            
+                ResultEmbed res_item;
+                res_item.id = id;
+                res_item.embedding = vec;
+                res_item.content = data.content;
+                res_item.distance = distance;
+                //std::cout << data.id << ", distance=" << distance << std::endl;
+                if(distance > 0.4) {
+                    result_items.push_back(res_item);
+                }
+            }
+            std::sort(result_items.begin(), result_items.end(),
+                [](const ResultEmbed& a, const ResultEmbed& b) {
+                    return a.distance > b.distance;
+                }
+            );   
+
+            // 結果表示
+            std::string out_str = "";
+            for (const auto& item : result_items) {
+                //std::cout << "id=" << item.id
+                //        << ", content=" << item.content
+                //        << ", distance=" << item.distance << std::endl;
+                if (out_str.empty()) {
+                    std::cout << "distance=" << item.distance
+                        << ", id=" << item.id << std::endl;
+                    out_str = item.content + "\n";
+                }        
+            }
+            std::cout << "out_str=" << out_str << std::endl;
+            return out_str;
         } catch (const exception &e) {
             cerr << e.what() << endl;
             return ret;

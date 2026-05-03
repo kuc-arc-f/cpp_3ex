@@ -200,16 +200,15 @@ int main() {
                 return;
             }
         }    
-        MyPage app("");
-        app.root_page_handler(req, res);
+        //MyPage app("");
+        //app.root_page_handler(req, res);
+        res.set_file_content("./html/root.html");
     });
     svr.Get("/about", [](const httplib::Request& req, httplib::Response& res) {
-        MyPage app("");
-        app.root_page_handler(req, res);
+        res.set_file_content("./html/root.html");
     });
     svr.Get("/login", [](const httplib::Request& req, httplib::Response& res) {
-        MyPage app("");
-        app.root_page_handler(req, res);
+        res.set_file_content("./html/root.html");
     });        
     // ─── CSSファイルの配信 ───
     svr.Get("/style.css", [](const httplib::Request&, httplib::Response& res) {

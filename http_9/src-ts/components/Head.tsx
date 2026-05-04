@@ -17,6 +17,7 @@ function Page() {
     <div class="flex-1 p-2 m-1">
       <a href="/" className="font-bold ms-4" >Home</a>
       <a href="/about" className="ms-4" >About</a>
+      <a href="/todo_2" className="ms-4" >Todo2</a>
     </div>
     <div class="flex-1 p-2 m-1 text-end">
       <button onClick={() => proc_logout()}>[ Logout ]</button>

@@ -13,7 +13,7 @@ export default function App() {
   useEffect(() => {
     const fetchTodos = async () => {
       try {
-        const response = await fetch('/todos'); // デフォルトでGETになります
+        const response = await fetch('/api/todo_2'); // デフォルトでGETになります
         if (!response.ok) {
           throw new Error(`エラーが発生しました: ${response.status}`);
         }        
@@ -40,7 +40,7 @@ export default function App() {
   const updateTodo = async (todo: Todo) => {
       console.log(todo);
       try {
-        const response = await fetch('/todos/' + todo.id, {
+        const response = await fetch('/api/todo_2/' + todo.id, {
           method: 'PUT',
           headers: {
             'Content-Type': 'application/json'
@@ -75,7 +75,7 @@ export default function App() {
       };
       console.log(todos);
       try {
-        const response = await fetch('/todos', {
+        const response = await fetch('/api/todo_2', {
           method: 'POST',
           headers: {
             'Content-Type': 'application/json'
@@ -96,7 +96,7 @@ export default function App() {
 
   const handleDeleteTodo = async (id: string) => {
     try {
-      const response = await fetch("/todos/" + id, {
+      const response = await fetch("/api/todo_2/" + id, {
         method: 'DELETE', // メソッドを DELETE に指定
       });
       if (!response.ok) {

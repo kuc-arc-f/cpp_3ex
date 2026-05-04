@@ -14,6 +14,7 @@
 #include <dotenv.h>
 
 #include "my_todo.hpp"
+#include "my_todo_2.hpp"
 #include "my_page.hpp"
 
 using json = nlohmann::json;
@@ -23,7 +24,6 @@ std::string DB_PATH = "./todo.db";
 // インメモリストレージ
 static std::vector<Todo> g_todos;
 static std::mutex        g_mutex;
-
 
 std::map<std::string, std::string> parse_cookies(const std::string& cookie_str) {
     std::map<std::string, std::string> cookies;
@@ -145,12 +145,12 @@ int main() {
         }
     });
 
-    // ── GET /todos ── 一覧取得 ───────────────
-    svr.Get("/todos", [](const httplib::Request&, httplib::Response& res) {
+    // ── GET ── 一覧取得 ───────────────
+    svr.Get("/api/todo_2", [](const httplib::Request&, httplib::Response& res) {
         std::lock_guard<std::mutex> lk(g_mutex);
-        MyTodo db(DB_PATH);
+        MyTodo_2 db(DB_PATH);
         try{
-            auto todos = db.list("all");
+            std::vector<Todo_2> todos = db.list("all");
             auto resp = db.todos_to_json(todos);
             res.status = 201;
             res.set_content(resp, "application/json");
@@ -160,10 +160,10 @@ int main() {
         } 
     });
 
-    // ── POST /todos ── 新規作成 ──────────────
-    svr.Post("/todos", [](const httplib::Request& req, httplib::Response& res) {
+    // ── POST ── 新規作成 ──────────────
+    svr.Post("/api/todo_2", [](const httplib::Request& req, httplib::Response& res) {
         std::lock_guard<std::mutex> lk(g_mutex);
-        MyTodo db(DB_PATH); 
+        MyTodo_2 db(DB_PATH); 
         if (req.get_header_value("Content-Type") != "application/json") {
             res.status = 400;
             res.set_content("Expected application/json", "text/plain");
@@ -195,17 +195,17 @@ int main() {
         }        
     });
 
-    // ── PUT /todos/:id ── 更新（title / done） ─
-    svr.Put(R"(/todos/(\d+))", [](const httplib::Request& req, httplib::Response& res) {
+// ── PUT /todo_2/:id ── 更新（title / done） ─
+    svr.Put(R"(/api/todo_2/(\d+))", [](const httplib::Request& req, httplib::Response& res) {
         std::lock_guard<std::mutex> lk(g_mutex);
-        MyTodo db(DB_PATH);
+        MyTodo_2 db(DB_PATH);
         db.todos_update_handler(req, res);
     });
 
-    // ── DELETE /todos/:id ── 削除 ────────────
-    svr.Delete(R"(/todos/(\d+))", [](const httplib::Request& req, httplib::Response& res) {
+    // ── DELETE /todo_2/:id ── 削除 ────────────
+    svr.Delete(R"(/api/todo_2/(\d+))", [](const httplib::Request& req, httplib::Response& res) {
         std::lock_guard<std::mutex> lk(g_mutex);
-        MyTodo db(DB_PATH);
+        MyTodo_2 db(DB_PATH);
         db.todos_delete_handler(req, res);
     });
 
@@ -271,11 +271,6 @@ int main() {
     // ── 起動 ────────────────────────────────
     int port_no = 8000;
     std::cout << "TODO Server running on http://localhost:" << port_no << "\n";
-    std::cout << "Endpoints:\n"
-              << "  GET    /todos\n"
-              << "  POST   /todos        body: {\"title\":\"...\"}\n"
-              << "  PUT    /todos/:id    body: {\"title\":\"...\",\"done\":true}\n"
-              << "  DELETE /todos/:id\n";
 
     svr.listen("0.0.0.0", port_no);
     return 0;

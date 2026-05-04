@@ -107,6 +107,7 @@ public:
         oss << "{"
             << "\"id\":"    << t.id           << ","
             << "\"title\":\"" << t.title      << "\","
+            << "\"done\":"  << 0
             //<< "\"done\":"  << (t.done ? "true" : "false")
             << "}";
         return oss.str();

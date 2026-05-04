@@ -145,6 +145,34 @@ int main() {
         }
     });
 
+    // ── GET /todos ── 一覧取得 ───────────────
+    svr.Get("/api/todos", [](const httplib::Request&, httplib::Response& res) {
+        std::lock_guard<std::mutex> lk(g_mutex);
+        MyTodo db(DB_PATH);
+        db.todos_list_handler(res);
+    });
+
+    // ── POST /todos ── 新規作成 ──────────────
+    svr.Post("/api/todos", [](const httplib::Request& req, httplib::Response& res) {
+        std::lock_guard<std::mutex> lk(g_mutex);
+        MyTodo db(DB_PATH); 
+        db.todos_add_handler(req, res);
+    });
+
+    // ── PUT /todos/:id ── 更新（title / done） ─
+    svr.Put(R"(/api/todos/(\d+))", [](const httplib::Request& req, httplib::Response& res) {
+        std::lock_guard<std::mutex> lk(g_mutex);
+        MyTodo db(DB_PATH);
+        db.todos_update_handler(req, res);
+    });
+
+    // ── DELETE /todos/:id ── 削除 ────────────
+    svr.Delete(R"(/api/todos/(\d+))", [](const httplib::Request& req, httplib::Response& res) {
+        std::lock_guard<std::mutex> lk(g_mutex);
+        MyTodo db(DB_PATH);
+        db.todos_delete_handler(req, res);
+    });
+
     // ── GET ── 一覧取得 ───────────────
     svr.Get("/api/todo_2", [](const httplib::Request&, httplib::Response& res) {
         std::lock_guard<std::mutex> lk(g_mutex);

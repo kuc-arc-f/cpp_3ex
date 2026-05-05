@@ -3,6 +3,7 @@ import { PlusCircle, StretchHorizontal } from 'lucide-react';
 import { Todo } from './todo_2/types';
 import { TodoDialog } from './todo_2/TodoDialog';
 import { TodoCard } from './todo_2/TodoCard';
+import TodoData from './todo_2/TodoData';
 
 export default function App() {
   const [todos, setTodos] = useState<Todo[]>([]);
@@ -17,9 +18,11 @@ export default function App() {
         if (!response.ok) {
           throw new Error(`エラーが発生しました: ${response.status}`);
         }        
-        const data = await response.json();       
-        console.log(data);
-        setTodos(data);
+        const data = await response.json();    
+        const items = TodoData.getItems(data);
+        //console.log(data);
+        console.log(items);
+        setTodos(items);
       } catch (error) {
         console.error('Error fetching todos:', error);
       }
@@ -59,6 +62,7 @@ export default function App() {
   }
 
   const handleSaveTodo = async (todoData: Omit<Todo, 'id' | 'createdAt'>) => {
+    if(todoData.isPublic === true) {todoData.isPublic = 1;} else {todoData.isPublic = 0;}
     if (editingTodo) {
       todoData.id = editingTodo.id;
       updateTodo(todoData);
@@ -73,7 +77,7 @@ export default function App() {
         id: crypto.randomUUID(),
         createdAt: Date.now(),
       };
-      console.log(todos);
+      console.log(todo);
       try {
         const response = await fetch('/api/todo_2', {
           method: 'POST',

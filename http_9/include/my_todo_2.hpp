@@ -224,11 +224,11 @@ public:
 
             std::string title = j.value("title", "");
             std::string content = j.value("content", "");
-            int pub = j.value("public", 0);
-            int orange = j.value("food_orange", 0);
-            int apple = j.value("food_apple", 0);
-            int banana = j.value("food_banana", 0);
-            std::string pub_date = j.value("pub_date", "");
+            int pub = j.value("isPublic", 0);
+            int orange = j.value("foodOrange", 0);
+            int apple = j.value("foodApple", 0);
+            int banana = j.value("foodBanana", 0);
+            std::string pub_date = j.value("pubDate", "");
             int q1 = j.value("qty1", 0);
             int q2 = j.value("qty2", 0);
             int q3 = j.value("qty3", 0);

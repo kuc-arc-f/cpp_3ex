@@ -28,6 +28,14 @@ C++ React + cpp-httplib , todo server
 
 ### setup
 
+* table add
+```
+sqlite3 todo.db < table_todo_2.sql
+sqlite3 todo.db < table_todo_3.sql
+```
+
+***
+
 * LIB
 
 ```

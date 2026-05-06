@@ -4,6 +4,7 @@ import { Todo } from './todo_2/types';
 import { TodoDialog } from './todo_2/TodoDialog';
 import { TodoCard } from './todo_2/TodoCard';
 import TodoData from './todo_2/TodoData';
+import Head from '../components/Head';
 
 export default function App() {
   const [todos, setTodos] = useState<Todo[]>([]);
@@ -115,6 +116,7 @@ export default function App() {
 
   return (
     <div className="min-h-screen bg-slate-50 text-slate-900 font-sans pb-20">
+      <Head />
       {/* Header */}
       <header className="bg-white border-b border-slate-200 sticky top-0 z-10 shadow-sm">
         <div className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 h-16 flex items-center justify-between">

@@ -6,6 +6,7 @@ import Home from './client/home';
 import About from './client/about';
 import Login from './client/login';
 import Todo_2 from './client/todo_2';
+import Todo_3 from './client/todo_3';
 
 function App() {
   return (
@@ -14,6 +15,7 @@ function App() {
       <Route path="/about" element={<About />} />      
       <Route path="/login" element={<Login />} />      
       <Route path="/todo_2" element={<Todo_2 />} />
+      <Route path="/todo_3" element={<Todo_3 />} />
     </Routes>
   );
 }

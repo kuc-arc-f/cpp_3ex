@@ -15,6 +15,7 @@
 
 #include "my_todo.hpp"
 #include "my_todo_2.hpp"
+#include "my_todo_3.hpp"
 #include "my_page.hpp"
 
 using json = nlohmann::json;
@@ -171,6 +172,116 @@ int main() {
         std::lock_guard<std::mutex> lk(g_mutex);
         MyTodo db(DB_PATH);
         db.todos_delete_handler(req, res);
+    });    
+
+    // ── GET ── 一覧取得 ───────────────
+    svr.Get("/api/todo_3", [](const httplib::Request&, httplib::Response& res) {
+        std::lock_guard<std::mutex> lk(g_mutex);
+        MyTodo_3 db(DB_PATH);
+        db.todos_list_handler(res);
+    });
+
+    // ── POST ── 新規作成 ──────────────
+    svr.Post("/api/todo_3", [](const httplib::Request& req, httplib::Response& res) {
+        std::lock_guard<std::mutex> lk(g_mutex);
+        try{        
+            MyTodo_3 db(DB_PATH); 
+            json j = json::parse(req.body);
+
+            std::string title = j.value("title", "");
+            std::string content = j.value("content", "");
+            int is_public = j.value("is_public", 0);
+            int food_orange = j.value("food_orange", 0);
+            int food_apple = j.value("food_apple", 0);
+            int food_banana = j.value("food_banana", 0);
+            int food_melon = j.value("food_melon", 0);
+            int food_grape = j.value("food_grape", 0);
+            std::string pub_date1 = j.value("pub_date1", "");
+            std::string pub_date2 = j.value("pub_date2", "");
+            std::string pub_date3 = j.value("pub_date3", "");
+            std::string pub_date4 = j.value("pub_date4", "");
+            std::string pub_date5 = j.value("pub_date5", "");
+            std::string pub_date6 = j.value("pub_date6", "");
+            int qty1 = j.value("qty1", 0);
+            int qty2 = j.value("qty2", 0);
+            int qty3 = j.value("qty3", 0);
+            int qty4 = j.value("qty4", 0);
+            int qty5 = j.value("qty5", 0);
+            int qty6 = j.value("qty6", 0);
+            /*
+            std::cout << "qty1=" << qty1 << std::endl;
+            std::cout << "qty2=" << qty2 << std::endl;
+            std::cout << "qty3=" << qty3 << std::endl;
+            std::cout << "qty4=" << qty4 << std::endl;
+            std::cout << "qty5=" << qty5 << std::endl;
+            std::cout << "qty6=" << qty6 << std::endl;
+            */
+
+            db.add(title, content, is_public, food_orange, food_apple, food_banana, food_melon, food_grape, 
+                    pub_date1, pub_date2, pub_date3, pub_date4, pub_date5, pub_date6, 
+                    qty1, qty2, qty3, qty4, qty5, qty6);
+
+            res.status = 201;
+            res.set_content("OK", "application/json");        
+        } catch (const std::exception& e) {
+            std::cerr << "Error in POST /api/todo_3: " << e.what() << std::endl;
+            res.status = 500;
+            res.set_content("Internal Server Error", "text/plain");
+        }         
+    });
+
+    // ── PUT /todo_3/:id ── 更新（title / done） ─
+    svr.Put(R"(/api/todo_3/(\d+))", [](const httplib::Request& req, httplib::Response& res) {
+        std::lock_guard<std::mutex> lk(g_mutex);
+        MyTodo_3 db(DB_PATH);
+        //db.todos_update_handler(req, res);
+        if (req.get_header_value("Content-Type") != "application/json") {
+            res.status = 400;
+            res.set_content("Expected application/json", "text/plain");
+            return;
+        }
+        try {
+            int id = std::stoi(req.matches[1]);
+            json j = json::parse(req.body);
+
+            std::string title = j.value("title", "");
+            std::string content = j.value("content", "");
+            int is_public = j.value("is_public", 0);
+            int food_orange = j.value("food_orange", 0);
+            int food_apple = j.value("food_apple", 0);
+            int food_banana = j.value("food_banana", 0);
+            int food_melon = j.value("food_melon", 0);
+            int food_grape = j.value("food_grape", 0);
+            std::string pub_date1 = j.value("pub_date1", "");
+            std::string pub_date2 = j.value("pub_date2", "");
+            std::string pub_date3 = j.value("pub_date3", "");
+            std::string pub_date4 = j.value("pub_date4", "");
+            std::string pub_date5 = j.value("pub_date5", "");
+            std::string pub_date6 = j.value("pub_date6", "");
+            int qty1 = j.value("qty1", 0);
+            int qty2 = j.value("qty2", 0);
+            int qty3 = j.value("qty3", 0);
+            int qty4 = j.value("qty4", 0);
+            int qty5 = j.value("qty5", 0);
+            int qty6 = j.value("qty6", 0);
+
+            db.update_todo(id, title, content, is_public, food_orange, food_apple, food_banana, food_melon, food_grape, 
+                           pub_date1, pub_date2, pub_date3, pub_date4, pub_date5, pub_date6, 
+                           qty1, qty2, qty3, qty4, qty5, qty6);
+
+            res.status = 200;
+            res.set_content("OK", "application/json");
+        } catch (const std::exception& e) {
+            res.status = 500;
+            res.set_content("Internal Server Error", "text/plain");
+        }        
+    });
+
+    // ── DELETE /todo_3/:id ── 削除 ────────────
+    svr.Delete(R"(/api/todo_3/(\d+))", [](const httplib::Request& req, httplib::Response& res) {
+        std::lock_guard<std::mutex> lk(g_mutex);
+        MyTodo_3 db(DB_PATH);
+        db.todos_delete_handler(req, res);
     });
 
     // ── GET ── 一覧取得 ───────────────
@@ -268,6 +379,9 @@ int main() {
         res.set_file_content("./html/root.html");
     });
     svr.Get("/todo_2", [](const httplib::Request& req, httplib::Response& res) {
+        res.set_file_content("./html/root.html");
+    });
+    svr.Get("/todo_3", [](const httplib::Request& req, httplib::Response& res) {
         res.set_file_content("./html/root.html");
     });
 
